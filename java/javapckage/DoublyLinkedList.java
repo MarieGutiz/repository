@@ -7,8 +7,8 @@ import java.lang.reflect.Array;
  * @author MarieGutiz
  * @create date 2022-07-27 01:40:06
  * @modify date 2022-07-27 01:40:06
- * @desc Create a double linked list from array. e.g. {1, {2, 7, {8, 10, 11},
- *       9}, 3}
+ * @desc Create a double linked list from array. e.g. {1, {2, 7, {8, 10, 11}, 9}, 3}
+ *      
  */
 
 public class DoublyLinkedList {
