@@ -2,6 +2,11 @@ package javapckage;
 
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author MarieGutiz
@@ -10,7 +15,11 @@ import java.lang.reflect.Array;
  * @desc Create a double linked list from array. e.g. {1, {2, 7, {8, 10, 11}, 9}, 3}
  *      
  */
-
+// 1---2---3
+//     |
+//     7---8---9
+//         |
+//         10---11
 public class DoublyLinkedList {
 
     static final int[][] NODE_WITH_CHILD = new int[][] { { 2 }, { 7 }, { 8, 10, 11 }, { 9 } };
@@ -22,6 +31,8 @@ public class DoublyLinkedList {
          Node doublyList = buildMultiLevel(nodes);
          System.out.println("printing the List ");
          printDoublyList(doublyList);
+         System.out.println("Visualize ");
+         visualize(doublyList);
     }
 
     private static void printDoublyList(Node head) {
@@ -86,7 +97,59 @@ public class DoublyLinkedList {
         return integer;
     }
 
+    private static void visualize(Node head){
+       if(head == null) return;
+       List<List<String>> list = new ArrayList<>();
+       getStr(head, list);
+       System.out.println("list "+list);
+       Collections.reverse(list);
+       
+       String indentation="";
+       int k=0;
+       for(List<String> l:list){
+        int indent=0;
+        int count=-1;
+        StringBuilder strb= new StringBuilder();
 
+          for (int i = 0; i < l.size(); i++) {
+            if(l.get(i) != "|"){
+               strb.append(l.get(i)+" ");
+               count+=1;
+            }
+            else{
+               indent = count * 4; 
+            }
+          }
+          String strfy = String.join("---", strb.toString().split(" "));
+          System.out.println(indentation+strfy);
+
+          if(list.size()>1 && k< list.size()-1){
+             char[] spaces = new char[indent];
+             Arrays.fill(spaces, ' ');
+             indentation+= new String(spaces);
+
+             System.out.println(indentation+"|");
+          }
+
+          k++;
+       }
+    }
+
+    private static void getStr(Node head, List<List<String>> list){
+        if(head == null) return;
+        List<String> nodes = new ArrayList<>();
+
+        while(head!=null){
+            nodes.add(String.valueOf(head.val));
+            if(head.child != null){
+                nodes.add(String.valueOf(head.child.val));
+                nodes.add("|");
+                getStr(head.child.next, list);
+            }
+           head = head.next; 
+        }
+        list.add(nodes);
+    }
 }
 
 class Node {
